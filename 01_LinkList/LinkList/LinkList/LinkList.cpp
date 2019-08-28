@@ -166,7 +166,7 @@ bool CLinkList::isEmpty(void)
 bool CLinkList::peek_front(int &nData)
 // peek front data
 {
-	if (isEmpty() == false) {
+	if (isEmpty() == true) {
 		return false;
 	}
 	nData = m_pStartNode->m_nData;
@@ -176,7 +176,7 @@ bool CLinkList::peek_front(int &nData)
 bool CLinkList::peek_back(int &nData)
 // peek back data
 {
-	if (isEmpty() == false) {
+	if (isEmpty() == true) {
 		return false;
 	}
 	nData = m_pEndNode->m_nData;
