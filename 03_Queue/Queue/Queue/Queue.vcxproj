@@ -115,6 +115,8 @@
   <ItemGroup>
     <ClInclude Include="CircularQueue.h" />
     <ClInclude Include="IQueue.h" />
+    <ClInclude Include="LinkList.h" />
+    <ClInclude Include="LinkListQueue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

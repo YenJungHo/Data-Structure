@@ -1,6 +1,8 @@
 #include <iostream>
 #include "IQueue.h"
+#include "LinkList.h"
 #include "CircularQueue.h"
+#include "LinkListQueue.h"
 
 using namespace std;
 
@@ -11,6 +13,7 @@ void TestQueue(int nMethod)
 {
 	IQueue<int> *pIQueue;
 	CCircularQueue<int> objCirQueue;
+	CLinkListQueue<int> objLinkListQueue;
 	int pushData, *pPopData = nullptr, *pPeekData = nullptr, nSize;
 
 	switch (nMethod) {
@@ -19,7 +22,7 @@ void TestQueue(int nMethod)
 		break;
 
 	case TEST_QUEUE_LINKLIST:
-		pIQueue = &objCirQueue;	
+		pIQueue = &objLinkListQueue;
 		break;
 
 	default:
@@ -82,8 +85,16 @@ void TestQueue(int nMethod)
 
 int main()
 {
+	cout << "Test Queue implemented by array" << endl;
 	TestQueue(TEST_QUEUE_ARRAY);
+	cout << endl;
 	system("pause");
+
+	cout << "Test Queue implemented by link list" << endl;
+	TestQueue(TEST_QUEUE_LINKLIST);
+	cout << endl;
+	system("pause");
+
 	return 0;
 }
 

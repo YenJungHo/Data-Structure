@@ -24,14 +24,14 @@ public:
 	}
 
 	void clear(void)
-	// clear all data in stack
+	// clear all data in queue
 	{
 		m_nFront = 0;
 		m_nBack = 0;
 	}
 
 	int size(void)
-	// get number of data in stack
+	// get number of data in queue
 	{
 		int nSize;
 		if (isEmpty() == true) {
@@ -48,39 +48,19 @@ public:
 	}
 
 	bool isEmpty(void)
-	// query if stack empty
+	// query if queue empty
 	{
 		return m_nBack == m_nFront;
 	}
 
 	bool isFull(void)
-	// query if stack full
+	// query if queue full
 	{
 		return ((m_nBack + 1) % m_nCapacity) == m_nFront;
 	}
 
-	void doubleQueueCapacity(void)
-	// double Queue Capacity
-	{
-		T* pNewArray = new T[2 * m_nCapacity];
-		int nStart = (m_nFront + 1) % m_nCapacity;
-		if (nStart < 2) {
-			memcpy(pNewArray, m_pData + nStart, sizeof(T) * (m_nCapacity - 1));
-		}
-		else {
-			memcpy(pNewArray, m_pData + nStart, sizeof(T) * (m_nCapacity - nStart));
-			memcpy(pNewArray + m_nCapacity - nStart, m_pData, sizeof(T) *(m_nBack + 1));
-		}
-
-		m_nFront = 2 * m_nCapacity - 1;
-		m_nBack = m_nCapacity - 2;
-		m_nCapacity *= 2;
-		delete[]m_pData;
-		m_pData = pNewArray;
-	}
-
 	void push(T& x)
-	// push data in stack
+	// push data in queue
 	{
 		if (isFull() == true) {
 			doubleQueueCapacity();
@@ -90,7 +70,7 @@ public:
 	}
 
 	T* pop(void)
-	// pop top data in stack
+	// pop top data in queue
 	{
 		if (isEmpty() == true) {
 			return nullptr;
@@ -100,7 +80,7 @@ public:
 	}
 
 	T* peek(void)
-	// peek top data in stack
+	// peek top data in queue
 	{
 		if (isEmpty() == true) {
 			return nullptr;
@@ -109,9 +89,9 @@ public:
 	}
 
 	void show(void)
-	// show data in stack
+	// show data in queue
 	{
-		cout << "	Show all data in stack" << endl;
+		cout << "	Show all data in queue" << endl;
 		if (isEmpty() == true) {
 			cout << "	Warning : no data in queue!" << endl;
 			cout << "	Capacity : " << m_nCapacity;
@@ -137,6 +117,26 @@ public:
 	}
 
 private:
+	void doubleQueueCapacity(void)
+		// double Queue Capacity
+	{
+		T* pNewArray = new T[2 * m_nCapacity];
+		int nStart = (m_nFront + 1) % m_nCapacity;
+		if (nStart < 2) {
+			memcpy(pNewArray, m_pData + nStart, sizeof(T) * (m_nCapacity - 1));
+		}
+		else {
+			memcpy(pNewArray, m_pData + nStart, sizeof(T) * (m_nCapacity - nStart));
+			memcpy(pNewArray + m_nCapacity - nStart, m_pData, sizeof(T) *(m_nBack + 1));
+		}
+
+		m_nFront = 2 * m_nCapacity - 1;
+		m_nBack = m_nCapacity - 2;
+		m_nCapacity *= 2;
+		delete[]m_pData;
+		m_pData = pNewArray;
+	}
+
 	T *m_pData;
 	// data in queue
 
