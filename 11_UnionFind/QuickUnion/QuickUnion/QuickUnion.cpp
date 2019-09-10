@@ -3,7 +3,7 @@
 
 using namespace std;
 
-CQuickUnion::CQuickUnion(int nCapacity)
+CQuickUnion::CQuickUnion(int nCapacity, bool bWeigth, bool bPathCompress)
 // constructor
 {
 	m_nCapacity = nCapacity;
@@ -14,6 +14,18 @@ CQuickUnion::CQuickUnion(int nCapacity)
 	for (int i = 0; i < nCapacity; i++) {
 		m_pId[i] = i;
 	}
+
+	m_bWeigth = bWeigth;
+	m_pSz = nullptr;
+	if (bWeigth == true) {
+		m_pSz = new int[nCapacity];
+
+		for (int i = 0; i < nCapacity; i++) {
+			m_pSz[i] = 1;
+		}
+	}
+
+	m_bPathCompress = bPathCompress;
 }
 
 CQuickUnion::~CQuickUnion(void)
@@ -21,6 +33,11 @@ CQuickUnion::~CQuickUnion(void)
 {
 	delete[]m_pId;
 	m_pId = nullptr;
+
+	if (m_bWeigth == true) {
+		delete[] m_pSz;
+		m_pSz = nullptr;
+	}
 }
 
 int CQuickUnion::root(int i)
@@ -31,6 +48,11 @@ int CQuickUnion::root(int i)
 	}
 
 	while (i != m_pId[i]) {
+		// Path compression, Simpler one-pass variant:
+		// Make every other node in path point to its grandparent
+		if (m_bPathCompress == true) {
+			m_pId[i] = m_pId[m_pId[i]];
+		}
 		i = m_pId[i];
 	}
 	return i;
@@ -64,7 +86,27 @@ bool CQuickUnion::connenct(int p, int q)
 	int root_p = root(p);
 	int root_q = root(q);
 
-	m_pId[root_p] = root_q;
+	// normal quick union
+	if (m_bWeigth == false) {
+		m_pId[root_p] = root_q;
+	}
+	// weighted quick union
+	// Modify normal quick-union to avoid tall trees.
+	// Keep track of size of each tree
+	// Balance by linking root of smaller tree to root of larger tree
+	else {
+		if (root_p == root_q) {
+			return true;
+		}
+		else if (m_pSz[root_p] <= m_pSz[root_q]) {
+			m_pId[root_p] = root_q;
+			m_pSz[root_q] += m_pSz[root_p];
+		}
+		else {
+			m_pId[root_q] = root_p;
+			m_pSz[root_p] += m_pSz[root_q];
+		}
+	}
 
 	return true;
 }

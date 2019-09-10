@@ -4,7 +4,7 @@
 class CQuickUnion
 {
 public:
-	CQuickUnion(int nCapacity);
+	CQuickUnion(int nCapacity, bool bWeigth = false, bool bPathCompress = false);
 	// constructor
 
 	~CQuickUnion(void);
@@ -28,6 +28,15 @@ private:
 
 	int m_nCapacity;
 	// size of array
+
+	bool m_bWeigth;
+	// flag for Weighted quick-union
+
+	int *m_pSz;
+	// size of tree for Weighted quick-union
+
+	bool m_bPathCompress;
+	// flag for path compression
 };
 
 

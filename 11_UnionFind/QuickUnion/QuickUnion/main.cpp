@@ -2,11 +2,12 @@
 #include "QuickUnion.h"
 using namespace std;
 
-void testQuickUnion(void)
+void testQuickUnion(bool bWeigth, bool bPathCompress )
 {
-	CQuickUnion objQuickUnion( 8 );
+	CQuickUnion objQuickUnion( 8, bWeigth, bPathCompress);
 
 	cout << "Show initial quick union array." << endl;
+
 	objQuickUnion.show();
 
 	cout << "Union( 1, 4 )" << endl;
@@ -49,7 +50,13 @@ void testQuickUnion(void)
 
 int main(void)
 {
-	testQuickUnion();
+	testQuickUnion(false,false);
+
+	testQuickUnion(true, false);
+
+	testQuickUnion(false, true);
+
+	testQuickUnion(true, true);
 
 	system("pause");
 	return 0;
